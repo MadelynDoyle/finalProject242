@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Contact Us</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="disp-flex">
+            <section class="title-box">
+                <!--title box-->
+                <section class="logo">
+                    <img src="images/logo.jpg">
+                </section>
+                <section class="title-box">
+                    <h1 class="page-title">Contact Us</h1>
+                </section>
+            </section>
+            <section class="navigation-box">
+                <nav class="navigation disp-flex">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="faq.html">FAQ's</a></li>
+                        <li><a href="orders.html">Orders</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </nav>
+            </section>
+            <section class="disp-row">
+                <section>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13232.717330040643!2d-79.2075311!3d33.9879272!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x890007ba5cb083cb%3A0x983c2517f4cef2e8!2sPalmetto%20Fresh%20Meat!5e0!3m2!1sen!2sus!4v1698106968247!5m2!1sen!2sus" width="300" height="225" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </section>
+                <section>
+                    <p class="section-p">Located at 403 Jordanville Rd Aynor, SC 29511. If you are wanting to get in contact with us our phone number is (843)358-1005. Store hours are Mon-Fri 8 AM - 5 PM and Sat 8 AM - 2PM</p>
+                    <p class="section-p">Updates including stock, hours, deals, and more can be found on our facebook page @Palmetto Fresh Meats!</p>
+                </section>
+            </section>
+            <section class="disp-row">
+                <section class="contact-container">
+                    <h2 class="addcolor">Get into Contact With Us!</h2>
+                    <form id="contactForm" onsubmit="submitForm(event)">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                        
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                        
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" required></textarea>
+                        
+                        <button type="submit">Submit</button>
+                    </form>
+                    <div id="successMessage" class="hidden">Form submitted successfully!</div>
+                    <div id="errorMessage" class="hidden">Please fill out all required fields.</div>
+                </section>
+            </section>
+        </div>
+    </body>
+    </body>
+</html>

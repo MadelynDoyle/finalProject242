@@ -1,0 +1,117 @@
+@media screen and (min-width: 768px) {
+    .disp-flex{
+        display: flex;
+        flex-direction: column;
+    }
+    .disp-row{
+        display: flex;
+        flex-direction: row;
+    }
+    .page-title{
+        text-align: center;
+        color:navy;
+    }
+    /*navigation*/
+    nav {
+        text-align: center;  
+    }
+    .navigation ul{
+        padding-left: 0px;
+    }
+    .navigation li {
+        list-style-type: none;
+        float: left;
+    }
+    .navigation a{
+        text-decoration: none;
+        display:block;
+        padding:20px;
+        padding-left: 116px;
+        padding-right: 116px;
+        color: navy;
+    }
+    .navigation a:hover{
+        border-bottom: 3px solid navy;
+    }
+    .image-area{
+        justify-content: center; 
+        align-items: center;
+        height: 500px; 
+    }
+    .section-h2{
+        color:navy;
+        padding: 20px;
+        margin: auto;
+    }
+    .section-p{
+        color:navy;
+        padding: 20px;
+        margin: auto;
+    }
+    .large-format{
+        padding-left: 200px;
+        padding-right: 200px;
+        margin: auto;
+    }
+    .blue-sect{
+        background-color: navy;
+        color:white;
+        width: 600px;
+        height: 650px;
+    }
+    .center-section{
+        margin: auto;
+        padding:30px;
+    }
+    li {
+        list-style-type: none;
+    }
+    a {
+        text-decoration: none;
+    }
+    button{
+        align-items: center;
+    }
+    .addcolor{
+        color:navy;
+    }
+    .contact-container{
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    #contact-form{
+        display: flex;
+        flex-direction: column;
+    }
+    label{
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    input, textarea {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+    button {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #successMessage, #errorMessage {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+    }
+    .hidden {
+        display: none;
+    }
+
+}
