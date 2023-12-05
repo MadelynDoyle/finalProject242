@@ -45,7 +45,39 @@
                     <section>
                         <h2 class="section-h2">Log In or Sign Up</h2>
                         <button>LogIn</button>
+                        <form id="login-form" name="login" method="post">
+                            <h3>Login</h3>
+                            <p>
+                              <label for="username">UserName:</label>
+                              <input type="text" name="username" required minlength="6" />
+                            </p>
+                            <p>
+                              <label for="password">Password:</label>
+                              <input type="password" name="password" minlength="6" />
+                            </p>
+                    
+                            <p><input type="submit" name="submit" /></p>
+                            <p id="message-login"></p>
+                          </form>
                         <button>SignUp</button>
+                        <form id="signup" name="signup" method="post">
+                            <h3>Signup</h3>
+                            <p>
+                              <label for="username">UserName:</label>
+                              <input type="text" name="username" required minlength="6" />
+                            </p>
+                            <p>
+                              <label for="Email">Email:</label>
+                              <input type="text" name="email" />
+                            </p>
+                            <p>
+                              <label for="password">Password:</label>
+                              <input type="password" name="password" minlength="6" />
+                            </p>
+                    
+                            <p><input type="submit" name="submit" /></p>
+                            <p id="message"></p>
+                          </form>
                     </section>
                 </section>
             </section>
