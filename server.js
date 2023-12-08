@@ -18,6 +18,18 @@ let currentUser;
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/about.html");
+});
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/faq.html");
+});
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/orders.html");
+});
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/contact.html");
+});
 mongoose
   .connect(
     "mongodb+srv://doylemr:tr3D7lUfsErph7se@cluster0.afz2cbd.mongodb.net/?retryWrites=true&w=majority"
