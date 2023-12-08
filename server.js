@@ -1,21 +1,165 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const startMongo = require("./db");
 const Joi = require("joi");
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public"));
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const User = require("./user");
+const multer = require("multer");
+const upload = multer({ dest: 'uploads/' });
+app.use(express.static("public"));
+app.use(express.json());
+const cors = require("cors");
+app.use(cors());
+const mongoose = require("mongoose");
 let currentUser;
-
-startMongo();
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
+mongoose
+  .connect(
+    "mongodb+srv://doylemr:tr3D7lUfsErph7se@cluster0.afz2cbd.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(() => console.log("Connected to mongodb..."))
+  .catch((err) => console.error("could not connect ot mongodb...", err));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
+
+const beefSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: String,
+  date: String,
+  phoneNum: String,
+  chuckRoast: String,
+  shoulderRoast: String,
+  Brisket: String,
+  flankSteak: String,
+  skirtSteak: String,
+  triTip: String,
+  ribeyeBoneIn: String,
+  ribeyeBoneOut: String,
+  shortRibsBoneIn : String,
+  beefStew: String,
+  shanks: String,
+  TBone: String,
+  tenderloinFilet: String,
+  newYorkStrip: String,
+  sirloinBoneIn: String,
+  sirloinBoneOut: String,
+  sirloinTipRoast: String,
+  topRoundRoast: String,
+  bottomRoundRoast: String,
+  cubedSteak: String,
+  groundBeef: String,
+  organMeat: String
+});
+
+app.get("/api/beefSheet", (req, res) => {
+  getBeefSheet(res);
+});
+
+const getBeefSheet = async (res) => {
+  const beef = await Beef.find();
+  res.send(beef);
+};
+
+app.post("/api/beefSheet", upload.single("img"), (req, res) => {
+  const result = validateRecipe(req.body);
+
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+    return;
+  }
+  const beef = new Beef({
+    name: req.body.name,
+    description: req.body.description,
+    ingredients: req.body.ingredients.split(","),
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    date: req.body.date,
+    phoneNum: req.body.phoneNum,
+    chuckRoast: req.body.chuckRoast,
+    shoulderRoast: req.body.shoulderRoast,
+    Brisket: req.body.Brisket,
+    flankSteak: req.body.flankSteak,
+    skirtSteak: req.body.skirtSteak,
+    triTip: req.body.triTip,
+    ribeyeBoneIn: req.body.ribeyeBoneIn,
+    ribeyeBoneOut: req.body.ribeyeBoneOut,
+    shortRibsBoneIn : req.body.shortRibsBoneIn,
+    beefStew: req.body.beefStew,
+    shanks: req.body.shanks,
+    TBone: req.body.TBone,
+    tenderloinFilet: req.body.tenderloinFilet,
+    newYorkStrip: req.body.newYorkStrip,
+    sirloinBoneIn: req.body.sirloinBoneIn,
+    sirloinBoneOut: req.body.sirloinBoneOut,
+    sirloinTipRoast: req.body.sirloinTipRoast,
+    topRoundRoast: req.body.topRoundRoast,
+    bottomRoundRoast: req.body.bottomRoundRoast,
+    cubedSteak: req.body.cubedSteak,
+    groundBeef: req.body.groundBeef,
+    organMeat: req.body.organMeat
+  });
+  createBeefSheet(beef, res);
+});
+
+const createBeefSheet = async (beef, res) => {
+  const result = await beef.save();
+  res.send(beef);
+};
+
+app.post("/api/beef/:id", upload.single("img"), (req, res) => {
+  const result = validateBeef(req.body);
+
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+    return;
+  }
+});
+
+const beefSheet = mongoose.model("Beef Sheet", beefSchema);
+
+const validateBeef = (beef) => {
+  const schema = Joi.object({
+    firstName: Joi.allow(""),
+    lastName: Joi.allow(""),
+    email: Joi.allow(""),
+    date: Joi.allow(""),
+    phoneNum: Joi.allow(""),
+    chuckRoast: Joi.allow(""),
+    shoulderRoast: Joi.allow(""),
+    Brisket: Joi.allow(""),
+    flankSteak: Joi.allow(""),
+    skirtSteak: Joi.allow(""),
+    triTip: Joi.allow(""),
+    ribeyeBoneIn: Joi.allow(""),
+    ribeyeBoneOut: Joi.allow(""),
+    shortRibsBoneIn : Joi.allow(""),
+    beefStew: Joi.allow(""),
+    shanks: Joi.allow(""),
+    TBone: Joi.allow(""),
+    tenderloinFilet: Joi.allow(""),
+    newYorkStrip: Joi.allow(""),
+    sirloinBoneIn: Joi.allow(""),
+    sirloinBoneOut: Joi.allow(""),
+    sirloinTipRoast: Joi.allow(""),
+    topRoundRoast: Joi.allow(""),
+    bottomRoundRoast: Joi.allow(""),
+    cubedSteak: Joi.allow(""),
+    groundBeef: Joi.allow(""),
+    organMeat: Joi.allow("")
+  });
+
+  return schema.validate(recipe);
+};
 
 app.post("/api/signup", async (req, res) => {
     const result = validateUser(req.body);

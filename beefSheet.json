@@ -1,0 +1,31 @@
+[
+    {
+        "firstName" : "Madelyn",
+        "lastName" : "Doyle",
+        "email" : "doylemr@email.sc.edu",
+        "date" : "12/7/2023",
+        "phoneNum" : "8433581005",
+        "chuckRoast" : "2-3lbs",
+        "shoulderRoast" : "4-5lbs",
+        "Brisket" : "Whole",
+        "flankSteak" : "yes",
+        "skirtSteak" : "no",
+        "triTip" : "yes",
+        "ribeyeBoneIn" : "1",
+        "ribeyeBoneOut" : "3/4",
+        "shortRibsBoneIn" : "yes",
+        "beefStew" : "15lbs",
+        "shanks" : "whole",
+        "TBone" : "1.5",
+        "tenderloinFilet" : "1",
+        "newYorkStrip" : "1",
+        "sirloinBoneIn" : "1.5",
+        "sirloinBoneOut" : "1",
+        "sirloinTipRoast" : "2-3",
+        "topRoundRoast" : "3-4",
+        "bottomRoundRoast" : "4-5",
+        "cubedSteak" : "10lbs",
+        "groundBeef" : "50lbs",
+        "organMeat" : "yes"
+    }
+]

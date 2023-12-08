@@ -13,7 +13,7 @@ function submitForm(event) {
         document.getElementById("errorMessage").style.display = "block";
     }
 }
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     const jsonData = {
         "name": "Madelyn Doyle",
         "date": "11/02/2023",
@@ -49,4 +49,88 @@ document.addEventListener("DOMContentLoaded", function() {
         listItem.textContent = `${key}: ${value}`;
         infoList.appendChild(listItem);
     }
-});
+});*/
+const getBeefSheet = async () => {
+    try {
+      return (await fetch("api/beefSheet/")).json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showBeefSheet = async () => {
+    let beef = await getRecipes();
+    let beefSheetdiv = document.getElementById("beef-form");
+    beefSheetdiv.innerHTML = "";
+    beefsheet.forEach((beef) => {
+      const section = document.createElement("section");
+      section.classList.add("beef");
+      beefSheetdiv.append(section);
+  
+      const a = document.createElement("a");
+      a.href = "#";
+      section.append(a);
+  
+      const h3 = document.createElement("h3");
+      h3.innerHTML = beef.firstName;
+      a.append(h3);
+  
+      a.onclick = (e) => {
+        e.preventDefault();
+        displayDetails(beef);
+      };
+    });
+  };
+
+  const addEditBeefSheet = async (e) => {
+    e.preventDefault();
+    const form = document.getElementById("beef-form");
+    const formData = new FormData(form);
+    let response;
+  
+    if (form._id.value == -1) {
+      formData.delete("_id");
+  
+      response = await fetch("/api/beefSheet", {
+        method: "POST",
+        body: formData,
+      });
+    }
+    else {
+      console.log(...formData);
+  
+      response = await fetch(`/api/beefSheet/${form._id.value}`, {
+        method: "PUT",
+        body: formData,
+      });
+    }
+  
+    if (response.status != 200) {
+      console.log("Error posting data");
+    }
+  
+    recipe = await response.json();
+  
+    if (form._id.value != -1) {
+      displayDetails(recipe);
+    }
+  
+    resetForm();
+    document.querySelector(".dialog").classList.add("transparent");
+    showBeefSheet();
+  };
+
+  const resetForm = () => {
+    const form = document.getElementById("book-form");
+    form.reset();
+    form._id = "-1";
+  };
+
+  window.onload = () => {
+    showBeefSheet();
+    document.getElementById("beef-form").onsubmit = addEditRecipe;
+  
+    document.querySelector(".close").onclick = () => {
+      document.querySelector(".dialog").classList.add("transparent");
+    };
+  };
