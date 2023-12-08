@@ -18,16 +18,16 @@ let currentUser;
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-app.get("/", (req, res) => {
+app.get("/about.html", (req, res) => {
   res.sendFile(__dirname + "/about.html");
 });
-app.get("/", (req, res) => {
+app.get("/faq.html", (req, res) => {
   res.sendFile(__dirname + "/faq.html");
 });
-app.get("/", (req, res) => {
+app.get("/orders.html", (req, res) => {
   res.sendFile(__dirname + "/orders.html");
 });
-app.get("/", (req, res) => {
+app.get("/contact.html", (req, res) => {
   res.sendFile(__dirname + "/contact.html");
 });
 mongoose
@@ -77,11 +77,12 @@ app.get("/api/beefSheet", (req, res) => {
 });
 
 const getBeefSheet = async (res) => {
-  const beef = await Beef.find();
+  const beef = await beef.find();
   res.send(beef);
 };
 
 app.post("/api/beefSheet", upload.single("img"), (req, res) => {
+  console.log("In post");
   const result = validateRecipe(req.body);
 
   if (result.error) {

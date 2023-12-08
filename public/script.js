@@ -59,10 +59,10 @@ const getBeefSheet = async () => {
   };
 
   const showBeefSheet = async () => {
-    let beef = await getRecipes();
-    let beefSheetdiv = document.getElementById("beef-form");
+    let beef = await getBeefSheet();
+    let beefSheetdiv = document.getElementById("beefSheetdiv");
     beefSheetdiv.innerHTML = "";
-    beefsheet.forEach((beef) => {
+    beef.forEach((beef) => {
       const section = document.createElement("section");
       section.classList.add("beef");
       beefSheetdiv.append(section);
@@ -87,33 +87,19 @@ const getBeefSheet = async () => {
     const form = document.getElementById("beef-form");
     const formData = new FormData(form);
     let response;
-  
-    if (form._id.value == -1) {
-      formData.delete("_id");
+
   
       response = await fetch("/api/beefSheet", {
         method: "POST",
         body: formData,
       });
-    }
-    else {
-      console.log(...formData);
-  
-      response = await fetch(`/api/beefSheet/${form._id.value}`, {
-        method: "PUT",
-        body: formData,
-      });
-    }
+
   
     if (response.status != 200) {
       console.log("Error posting data");
     }
   
-    recipe = await response.json();
-  
-    if (form._id.value != -1) {
-      displayDetails(recipe);
-    }
+    beef = await response.json();
   
     resetForm();
     document.querySelector(".dialog").classList.add("transparent");
@@ -128,9 +114,5 @@ const getBeefSheet = async () => {
 
   window.onload = () => {
     showBeefSheet();
-    document.getElementById("beef-form").onsubmit = addEditRecipe;
-  
-    document.querySelector(".close").onclick = () => {
-      document.querySelector(".dialog").classList.add("transparent");
-    };
+    document.getElementById("beef-form").onsubmit = addEditBeefSheet;
   };
