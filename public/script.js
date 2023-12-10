@@ -41,7 +41,6 @@ const getBeefSheet = async () => {
   
       a.onclick = (e) => {
         e.preventDefault();
-        displayDetails(beef);
       };
     });
   };
@@ -71,14 +70,16 @@ const getBeefSheet = async () => {
   };
 
   const resetForm = () => {
-    const form = document.getElementById("book-form");
+    const form = document.getElementById("beef-form");
     form.reset();
     form._id = "-1";
   };
 
   window.onload = () => {
     showBeefSheet();
-    document.getElementById("beef-form").onsubmit = addEditBeefSheet;
-    document.getElementById("beef-form").onsubmit = submitForm; //edits from gpt
-    showBeefSheet(); //edits from gpt
+    document.getElementById("beef-form").onsubmit = (e) => {
+      e.preventDefault();
+      addEditBeefSheet(e);
+      submitForm(e);
+    };
   };
