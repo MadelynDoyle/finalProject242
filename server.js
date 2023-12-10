@@ -1,7 +1,9 @@
-const express = require("express");
+const express = require('express');
+const app = express();
+const cors = require('cors');
+app.use(cors());
 const bodyParser = require("body-parser");
 const Joi = require("joi");
-const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public"));
 const jwt = require("jsonwebtoken");
@@ -10,10 +12,9 @@ const multer = require("multer");
 const upload = multer({ dest: 'uploads/' });
 app.use(express.static("public"));
 app.use(express.json());
-const cors = require("cors");
-app.use(cors());
 const mongoose = require("mongoose");
 let currentUser;
+console.log("server loaded");
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
@@ -30,6 +31,7 @@ app.get("/orders.html", (req, res) => {
 app.get("/contact.html", (req, res) => {
   res.sendFile(__dirname + "/contact.html");
 });
+console.log("server app get");
 mongoose
   .connect(
     "mongodb+srv://doylemr:tr3D7lUfsErph7se@cluster0.afz2cbd.mongodb.net/?retryWrites=true&w=majority"
@@ -40,7 +42,7 @@ mongoose
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-
+console.log("server mongoose connected");
 
 const beefSchema = new mongoose.Schema({
   firstName: String,
@@ -71,19 +73,30 @@ const beefSchema = new mongoose.Schema({
   groundBeef: String,
   organMeat: String
 });
+console.log("server beefSchema");
 
-app.get("/api/beefSheet/", (req, res) => {
+app.get('/api/beefSheet', async (req, res) => {
   getBeefSheet(res);
 });
+console.log("server app get");
 
-const getBeefSheet = async (res) => {
+/*const getBeefSheet = async (res) => {
   const beefData = await beefSheetMod.find();
   res.send(beefData);
+};*/
+const getBeefSheet = async () => {
+  try {
+    return (await fetch("http://localhost:3002/api/beefSheet")).json();
+  } catch (error) {
+    console.error("Error fetching beef sheet:", error);
+  }
 };
 
-app.post("/api/beefSheet/", upload.single("img"), (req, res) => {
+console.log("server getBeefSheet");
+
+app.post("/api/beefSheet", upload.single("img"), (req, res) => {
   console.log("In post");
-  const result = validate(req.body);
+  const result = validateBeef(req.body);
 
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
@@ -123,12 +136,14 @@ app.post("/api/beefSheet/", upload.single("img"), (req, res) => {
   });
   createBeefSheet(beef, res);
 });
+console.log("server post");
 const beefSheet = mongoose.model("Beef Sheet", beefSchema);
 
 const createBeefSheet = async (beef, res) => {
   const result = await beef.save();
   res.send(result); //what i changed
 };
+console.log("server createBeefSheet");
 
 app.post("/api/beef/:id", upload.single("img"), (req, res) => {
   const result = validateBeef(req.body);
@@ -138,6 +153,7 @@ app.post("/api/beef/:id", upload.single("img"), (req, res) => {
     return;
   }
 });
+console.log("server post pt 2");
 
 //const beefSheetMod = mongoose.model("Beef Sheet", beefSheet);
 const beefSheetMod = mongoose.model("Beef Sheet");
@@ -173,8 +189,9 @@ const validateBeef = (beef) => {
     organMeat: Joi.allow("")
   });
 
-  return schema.validateBeef(beef);
+  return schema.validate(beef);
 };
+console.log("server validateBeef");
 
 app.post("/api/signup", async (req, res) => {
     const result = validateUser(req.body);

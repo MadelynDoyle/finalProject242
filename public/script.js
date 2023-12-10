@@ -1,3 +1,9 @@
+const resetForm = () => {
+  const form = document.getElementById("beef-form");
+  form.reset();
+  form._id = "-1";
+};
+
 function submitForm(event) {
   event.preventDefault();
 
@@ -6,11 +12,11 @@ function submitForm(event) {
   const message = document.getElementById("message").value;
 
   if (name && email && message) {
-      document.getElementById("successMessage").style.display = "block";
-      document.getElementById("errorMessage").style.display = "none";
+    document.getElementById("successMessage").style.display = "block";
+    document.getElementById("errorMessage").style.display = "none";
   } else {
-      document.getElementById("successMessage").style.display = "none";
-      document.getElementById("errorMessage").style.display = "block";
+    document.getElementById("successMessage").style.display = "none";
+    document.getElementById("errorMessage").style.display = "block";
   }
 }
 
@@ -18,62 +24,71 @@ const getBeefSheet = async () => {
   try {
     return (await fetch("api/beefSheet/")).json();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
 const showBeefSheet = async () => {
-  let beef = await getBeefSheet();
-  let beefSheetdiv = document.getElementById("beefSheetdiv");
-  beefSheetdiv.innerHTML = "";
-  beef.forEach((beef) => {
-    const section = document.createElement("section");
-    section.classList.add("beef");
-    beefSheetdiv.append(section);
+  try {
+    let beef = await getBeefSheet();
 
-    const a = document.createElement("a");
-    a.href = "#";
-    section.append(a);
+    if (!beef) {
+      console.error("Error fetching beef sheet: Response is undefined");
+      return;
+    }
 
-    const h3 = document.createElement("h3");
-    h3.innerHTML = beef.firstName;
-    a.append(h3);
+    let beefSheetdiv = document.getElementById("beefSheetdiv");
+    beefSheetdiv.innerHTML = "";
 
-    a.onclick = (e) => {
-      e.preventDefault();
-      displayDetails(beef);
-    };
-  });
+    beef.forEach((beef) => {
+      const section = document.createElement("section");
+      section.classList.add("beef");
+      beefSheetdiv.append(section);
+
+      const a = document.createElement("a");
+      a.href = "#";
+      section.append(a);
+
+      const h3 = document.createElement("h3");
+      h3.innerHTML = beef.firstName;
+      a.append(h3);
+
+      a.onclick = (e) => {
+        e.preventDefault();
+        displayDetails(beef);
+      };
+    });
+  } catch (error) {
+    console.error("An error occurred while fetching beef sheet:", error);
+  }
 };
+
 
 const addEditBeefSheet = async (e) => {
   e.preventDefault();
   const form = document.getElementById("beef-form");
   const formData = new FormData(form);
+  console.log([...formData.entries()]);
   let response;
 
-
+  try {
     response = await fetch("/api/beefSheet", {
       method: "POST",
       body: formData,
     });
 
+    if (response.status !== 200) {
+      console.error("Error posting data");
+    }
 
-  if (response.status != 200) {
-    console.log("Error posting data");
+    beef = await response.json();
+
+    resetForm();
+    document.querySelector(".dialog").classList.add("transparent");
+    showBeefSheet();
+  } catch (error) {
+    console.error("An error occurred:", error);
   }
-
-  beef = await response.json();
-
-  resetForm();
-  document.querySelector(".dialog").classList.add("transparent");
-  showBeefSheet();
-};
-
-const resetForm = () => {
-  const form = document.getElementById("beef-form");
-  form.reset();
-  form._id = "-1";
 };
 
 window.onload = () => {
