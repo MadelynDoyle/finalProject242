@@ -30,6 +30,8 @@ app.get("/orders.html", (req, res) => {
 app.get("/contact.html", (req, res) => {
   res.sendFile(__dirname + "/contact.html");
 });
+app.use(express.static(path.join(__dirname, 'public')));  //addition
+app.use('/api/beefSheet', express.static(path.join(__dirname, 'beefSheet.json'))); //addition
 mongoose
   .connect(
     "mongodb+srv://doylemr:tr3D7lUfsErph7se@cluster0.afz2cbd.mongodb.net/?retryWrites=true&w=majority"
@@ -77,7 +79,7 @@ app.get("/api/beefSheet", (req, res) => {
 });
 
 const getBeefSheet = async (res) => {
-  const beef = await beef.find();
+  const beefData = await Beef.find();
   res.send(beef);
 };
 
