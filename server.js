@@ -80,17 +80,17 @@ app.get('/api/beefSheet', async (req, res) => {
 });
 console.log("server app get");
 
-/*const getBeefSheet = async (res) => {
-  const beefData = await beefSheetMod.find();
-  res.send(beefData);
-};*/
+
 const getBeefSheet = async () => {
   try {
-    return (await fetch("http://localhost:3002/api/beefSheet")).json();
+    return (await fetch("http://localhost:3000/api/beefSheet")).json();
   } catch (error) {
     console.error("Error fetching beef sheet:", error);
   }
 };
+let beef;
+console.log(beef);
+beef = "some value";
 
 console.log("server getBeefSheet");
 
@@ -103,9 +103,6 @@ app.post("/api/beefSheet", upload.single("img"), (req, res) => {
     return;
   }
   const beef = new beef({
-    name: req.body.name,
-    description: req.body.description,
-    ingredients: req.body.ingredients.split(","),
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
@@ -145,7 +142,7 @@ const createBeefSheet = async (beef, res) => {
 };
 console.log("server createBeefSheet");
 
-app.post("/api/beef/:id", upload.single("img"), (req, res) => {
+app.post("/api/beefSheet", upload.single("img"), (req, res) => {
   const result = validateBeef(req.body);
 
   if (result.error) {
@@ -155,7 +152,6 @@ app.post("/api/beef/:id", upload.single("img"), (req, res) => {
 });
 console.log("server post pt 2");
 
-//const beefSheetMod = mongoose.model("Beef Sheet", beefSheet);
 const beefSheetMod = mongoose.model("Beef Sheet");
 
 const validateBeef = (beef) => {
@@ -268,6 +264,6 @@ app.post("/api/signup", async (req, res) => {
     return schema.validate(user);
   };
   
-  app.listen(3002, () => {
+  app.listen(3000, () => {
     console.log("I'm listening");
   });
