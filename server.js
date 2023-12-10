@@ -7,6 +7,7 @@ app.use(express.static("public"));
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const multer = require("multer");
+const path = require('path');
 const upload = multer({ dest: 'uploads/' });
 app.use(express.static("public"));
 app.use(express.json());
