@@ -52,7 +52,7 @@ function submitForm(event) {
 });*/
 const getBeefSheet = async () => {
     try {
-      return (await fetch("api/beefSheet/")).json();
+      return (await fetch("api/beefSheet")).json();
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +113,8 @@ const getBeefSheet = async () => {
   };
 
   window.onload = () => {
-    showBeefSheet();
-    document.getElementById("beef-form").onsubmit = addEditBeefSheet;
+    /*showBeefSheet();
+    document.getElementById("beef-form").onsubmit = addEditBeefSheet;*/
+    document.getElementById("beef-form").onsubmit = submitForm; //edits from gpt
+    showBeefSheet(); //edits from gpt
   };
