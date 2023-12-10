@@ -7,7 +7,6 @@ app.use(express.static("public"));
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const multer = require("multer");
-const path = require('path');
 const upload = multer({ dest: 'uploads/' });
 app.use(express.static("public"));
 app.use(express.json());
@@ -31,7 +30,6 @@ app.get("/orders.html", (req, res) => {
 app.get("/contact.html", (req, res) => {
   res.sendFile(__dirname + "/contact.html");
 });
-app.use(express.static(path.join(__dirname, 'public')));  //addition
 mongoose
   .connect(
     "mongodb+srv://doylemr:tr3D7lUfsErph7se@cluster0.afz2cbd.mongodb.net/?retryWrites=true&w=majority"
@@ -74,24 +72,24 @@ const beefSchema = new mongoose.Schema({
   organMeat: String
 });
 
-app.get("/api/beefSheet", (req, res) => {
+app.get("/api/beefSheet/", (req, res) => {
   getBeefSheet(res);
 });
 
 const getBeefSheet = async (res) => {
-  const beefData = await Beef.find();
+  const beefData = await beefSheetMod.find();
   res.send(beefData);
 };
 
-app.post("/api/beefSheet", upload.single("img"), (req, res) => {
+app.post("/api/beefSheet/", upload.single("img"), (req, res) => {
   console.log("In post");
-  const result = validateRecipe(req.body);
+  const result = validate(req.body);
 
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
     return;
   }
-  const beef = new Beef({
+  const beef = new beef({
     name: req.body.name,
     description: req.body.description,
     ingredients: req.body.ingredients.split(","),
@@ -125,10 +123,11 @@ app.post("/api/beefSheet", upload.single("img"), (req, res) => {
   });
   createBeefSheet(beef, res);
 });
+const beefSheet = mongoose.model("Beef Sheet", beefSchema);
 
 const createBeefSheet = async (beef, res) => {
   const result = await beef.save();
-  res.send(beef);
+  res.send(result); //what i changed
 };
 
 app.post("/api/beef/:id", upload.single("img"), (req, res) => {
@@ -140,7 +139,8 @@ app.post("/api/beef/:id", upload.single("img"), (req, res) => {
   }
 });
 
-const beefSheet = mongoose.model("Beef Sheet", beefSchema);
+//const beefSheetMod = mongoose.model("Beef Sheet", beefSheet);
+const beefSheetMod = mongoose.model("Beef Sheet");
 
 const validateBeef = (beef) => {
   const schema = Joi.object({
@@ -173,7 +173,7 @@ const validateBeef = (beef) => {
     organMeat: Joi.allow("")
   });
 
-  return schema.validate(recipe);
+  return schema.validateBeef(beef);
 };
 
 app.post("/api/signup", async (req, res) => {

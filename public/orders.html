@@ -36,14 +36,14 @@
                         <ul>
                             <div id="beefSheetdiv">
                             <li>Beef Cut Sheet</li>
-                            <form id="beef-form" name="beefsheet" method="post">
+                            <form id="beef-form" method="POST" action="/api/beefSheet/" enctype="multipart/form-data">
                                 <p>
                                     <label for="firstName">First Name:</label>
-                                    <input type="text" name="firstname" required minlength="1" />
+                                    <input type="text" name="firstName" required minlength="1" />
                                 </p>
                                 <p>
                                     <label for="lastName">Last Name:</label>
-                                    <input type="text" name="lastname" required minlength="1" />
+                                    <input type="text" name="lastName" required minlength="1" />
                                 </p>
                                 <p>
                                     <label for="email">Email:</label>
@@ -191,6 +191,6 @@
                 </section>
             </section>
         </div>
-    </body>
+        <script src="script.js"></script>
     </body>
 </html>
